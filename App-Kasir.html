@@ -35,15 +35,15 @@ body{
 }
 
 header{
-    background: rgba(0, 120, 255, 1);
+    background: rgba(255,255,255,0.01);
     padding:40px;
     text-align:center;
-    color:white;
+    color:#000;
     font-size:25px;
     font-weight:600;
     border-bottom-left-radius:10px;
     border-bottom-right-radius:10px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+    box-shadow:0 4px 10px #4a90e2;
 }
 
 .container{
@@ -90,10 +90,11 @@ button:active{
 input{
     width:90%;
     padding:12px;
-    border-radius:12px;
+    border-radius:20px;
     border:1.5px solid #d8d8d8;
     margin-bottom:10px;
     font-size:15px;
+    background:rgba(255,255,255,0.01);
     outline:none;
     transition:0.2s;
 }
@@ -110,6 +111,7 @@ input:focus{
     flex:1;
     padding:10px;
     font-size:14px;
+    font-weight:600;
     background:linear-gradient(135deg, #eaf6ff, #ffffff);
     color:#4a90e2;
     border-radius:12px;
@@ -141,6 +143,19 @@ td{
 
 .hidden{display:none;}
 
+    .btn-hapus {
+    background: #ff3b30;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+.btn-hapus:hover {
+    background: #e02c22;
+    }
 </style>
 </head>
 <body>
@@ -327,21 +342,27 @@ function saveProduk(){
 }
 
 function loadTable(id, storage, cols){
-    let data = JSON.parse(localStorage.getItem(storage)||"[]");
+    let data = JSON.parse(localStorage.getItem(storage) || "[]");
     let html = "<tr>";
-    cols.forEach(c=> html += "<th>"+c+"</th>");
-    html += "</tr>";
 
-    data.forEach(d=>{
+    cols.forEach(c => html += "<th>" + c + "</th>");
+    html += "<th>hapus</th></tr>"; 
+
+    data.forEach((d, i) => {
         html += "<tr>";
-        cols.forEach(c=>{
-            html += "<td>"+(d[c.toLowerCase()] || "")+"</td>";
+        cols.forEach(c => {
+            let key = c.toLowerCase();
+            html += "<td>" + (d[key] ?? "") + "</td>";
         });
+
+        html += `<td>
+            <button class="btn-hapus" onclick="hapusData('${storage}', ${i})">Hapus</button>
+        </td>`;
         html += "</tr>";
     });
 
     document.getElementById(id).innerHTML = html;
-}
+    }
 
 document.addEventListener("click", ()=>{
     loadTable("tPelanggan","pelanggan",["id","Nama","Telp"]);
@@ -349,6 +370,18 @@ document.addEventListener("click", ()=>{
     loadTable("tDetail","detail",["Kode","Produk","Jumlah"]);
     loadTable("tProduk","produk",["Nama","Harga"]);
 });
+
+    function hapusData(storage, index){
+    let arr = JSON.parse(localStorage.getItem(storage) || "[]");
+    arr.splice(index, 1);
+    localStorage.setItem(storage, JSON.stringify(arr));
+    alert("Data berhasil dihapus!");
+
+    if(storage === "pelanggan") loadTable("tPelanggan","pelanggan",["id","Nama","Telp"]);
+    if(storage === "penjualan") loadTable("tPenjualan","penjualan",["Kode","Tanggal"]);
+    if(storage === "detail") loadTable("tDetail","detail",["Kode","Produk","Jumlah"]);
+    if(storage === "produk") loadTable("tProduk","produk",["Nama","Harga"]);
+    }
 </script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js">  
 </script> 
