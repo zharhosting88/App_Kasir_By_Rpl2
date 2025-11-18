@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasir App</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+@import url('https://fonts.cdnfonts.com/css/sf-pro-display');
+
+body{
+    font-family: 'SF Pro Display', serif;
+    background: linear-gradient(135deg, #eaf6ff, #ffffff);
+    margin:0;
+    padding:0;
+    color:#222;
+}
+
+.top-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.top-image-login {
+    margin-left: 60px;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 2px;
+}
+
+header{
+    background: rgba(0, 120, 255, 1);
+    padding:40px;
+    text-align:center;
+    color:white;
+    font-size:25px;
+    font-weight:600;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    margin-top:20px;
+    background: rgba(0,0,0,0.08);
+    padding:18px;
+    border-radius:20px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom:20px;
+}
+.card-login{
+    margin-top:20px;
+    background: rgba(0,0,0,0.08);
+    padding:18px;
+    border-radius:20px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom:20px;
+}
+.card-login h2 {
+  text-align: center;
+  font-weight: bold;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    background:#4a90e2;
+    color:white;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:500;
+    transition:0.2s;
+}
+button:active{
+    transform:scale(0.97);
+}
+
+input{
+    width:90%;
+    padding:12px;
+    border-radius:12px;
+    border:1.5px solid #d8d8d8;
+    margin-bottom:10px;
+    font-size:15px;
+    outline:none;
+    transition:0.2s;
+}
+input:focus{
+    border-color:#4a90e2;
+}
+
+.menu{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+.menu button{
+    flex:1;
+    padding:10px;
+    font-size:14px;
+    background:linear-gradient(135deg, #eaf6ff, #ffffff);
+    color:#4a90e2;
+    border-radius:12px;
+    border:2px solid #4a90e2;
+}
+.menu button:active{
+    background:#4a90e2;
+    color:white;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 16px rgba(0,0,0,0.08);
+}
+th{
+    background:#eaf2ff;
+    padding:12px;
+    text-align:left;
+}
+td{
+    padding:10px;
+    border-top:1px solid #eee;
+}
+
+.hidden{display:none;}
+
+</style>
+</head>
+<body>
+
+<div id="loginPage">
+    <header data-aos="zoom-out-down" data-aos-duration="2000">APP KASIR $</header>
+    <div class="container">
+      <img data-aos="zoom-in-up" data-aos-duration="2000" src="https://i.imgur.com/NsET5yt.png" class="top-image-login">
+        <div data-aos="zoom-in-up" data-aos-duration="2000" class="card-login">
+          <h2><i class="fas fa-user-circle"></i> login</h2>
+            <input id="username" placeholder="Username">
+            <input id="password" type="password" placeholder="Password">
+            <button onclick="login()">Masuk</button>
+        </div>
+    </div>
+</div>
+
+<div id="homePage" class="hidden">
+    <header>HOME</header>
+    <div class="container">
+      <img src="https://i.imgur.com/S4t0H2b.jpeg" class="top-image">
+        <div class="card">
+            <h2 style="margin-top:0;">Selamat Datang <i class="fas fa-hand-wave"></i></h2>
+            <p>Pilih menu di bawah untuk mulai menggunakan aplikasi kasir.</p>
+        </div>
+        
+        <div class="menu">
+            <button onclick="showPage('inputPage')">Input Data</button>
+            <button onclick="showPage('lihatPage')">Lihat Data</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+</div>
+
+<div id="inputPage" class="hidden">
+    <header>INPUT DATA</header>
+    <div class="container">
+      <img src="https://i.imgur.com/nMwWVcJ.jpeg" class="top-image">
+        <div class="menu">
+            <button onclick="showPage('homePage')">Home</button>
+            <button onclick="showPage('inputPelanggan')">Pelanggan</button>
+            <button onclick="showPage('inputPenjualan')">Penjualan</button>
+            <button onclick="showPage('inputDetail')">Detail</button>
+            <button onclick="showPage('inputProduk')">Produk</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+</div>
+
+<div id="inputPelanggan" class="hidden container">
+  <img src="https://i.imgur.com/QBostSi.jpeg" class="top-image">
+    <div class="card">
+        <h2>Input Pelanggan</h2>
+        <input type="number" id="pelangganId" placeholder="id Pelanggan">
+        <input type="text" id="pelangganNama" placeholder="Nama Pelanggan">
+        <input type="tel" id="pelangganTelp" placeholder="No Telp">
+        <button onclick="savePelanggan()">Simpan</button>
+        <button onclick="showPage('inputPage')">←</button>
+    </div>
+</div>
+
+<div id="inputPenjualan" class="hidden container">
+  <img src="https://i.imgur.com/QBostSi.jpeg" class="top-image">
+    <div class="card">
+        <h2>Input Penjualan</h2>
+        <input id="penjualanKode" placeholder="Kode Penjualan">
+        <input id="penjualanTanggal" type="date">
+        <button onclick="savePenjualan()">Simpan</button>
+        <button onclick="showPage('inputPage')">←</button>
+    </div>
+</div>
+
+<div id="inputDetail" class="hidden container">
+  <img src="https://i.imgur.com/QBostSi.jpeg" class="top-image">
+    <div class="card">
+        <h2>Input Detail Penjualan</h2>
+        <input id="detailKode" placeholder="Kode Penjualan">
+        <input id="detailProduk" placeholder="Produk">
+        <input id="detailJumlah" placeholder="Jumlah">
+        <button onclick="saveDetail()">Simpan</button>
+        <button onclick="showPage('inputPage')">←</button>
+    </div>
+</div>
+
+<div id="inputProduk" class="hidden container">
+  <img src="https://i.imgur.com/QBostSi.jpeg" class="top-image">
+    <div class="card">
+        <h2>Input Produk</h2>
+        <input id="produkNama" placeholder="Nama Produk">
+        <input id="produkHarga" placeholder="Harga">
+        <button onclick="saveProduk()">Simpan</button>
+        <button onclick="showPage('inputPage')">←</button>
+    </div>
+</div>
+
+<div id="lihatPage" class="hidden">
+    <header>LIHAT DATA</header>
+    <div class="container">
+      <img src="https://i.imgur.com/nMwWVcJ.jpeg" class="top-image">
+        <div class="menu">
+            <button onclick="showPage('homePage')">Home</button>
+            <button onclick="showPage('dataPelanggan')">Data Pelanggan</button>
+            <button onclick="showPage('dataPenjualan')">Data Penjualan</button>
+            <button onclick="showPage('dataDetail')">Data Detail</button>
+            <button onclick="showPage('dataProduk')">Data Produk</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+</div>
+
+<div id="dataPelanggan" class="hidden container">
+  <img src="https://i.imgur.com/Z9gxK2r.jpeg" class="top-image">
+    <h2>Data Pelanggan</h2>
+    <table id="tPelanggan"></table>
+    <button onclick="showPage('lihatPage')">←</button>
+</div>
+
+<div id="dataPenjualan" class="hidden container">
+  <img src="https://i.imgur.com/Z9gxK2r.jpeg" class="top-image">
+    <h2>Data Penjualan</h2>
+    <table id="tPenjualan"></table>
+    <button onclick="showPage('lihatPage')">←</button>
+</div>
+
+<div id="dataDetail" class="hidden container">
+  <img src="https://i.imgur.com/Z9gxK2r.jpeg" class="top-image">
+    <h2>Data Detail</h2>
+    <table id="tDetail"></table>
+    <button onclick="showPage('lihatPage')">←</button>
+</div>
+
+<div id="dataProduk" class="hidden container">
+  <img src="https://i.imgur.com/Z9gxK2r.jpeg" class="top-image">
+    <h2>Data Produk</h2>
+    <table id="tProduk"></table>
+    <button onclick="showPage('lihatPage')">←</button>
+</div>
+
+<script>
+function login(){
+    if(username.value === "RPL-TP" && password.value === "2025"){
+        showPage("homePage");
+        loginPage.classList.add("hidden");
+    } else {
+        alert("Username / Password salah!");
+    }
+}
+
+function logout(){ location.reload(); }
+
+function showPage(id){
+    document.querySelectorAll("div").forEach(div=>{
+        if(div.id) div.classList.add("hidden");
+    });
+    document.getElementById(id).classList.remove("hidden");
+}
+
+function savePelanggan(){
+    let arr = JSON.parse(localStorage.getItem("pelanggan")||"[]");
+    arr.push({id: pelangganId.value, nama: pelangganNama.value, telp: pelangganTelp.value});
+    localStorage.setItem("pelanggan",JSON.stringify(arr));
+    alert("Tersimpan!");
+}
+
+function savePenjualan(){
+    let arr = JSON.parse(localStorage.getItem("penjualan")||"[]");
+    arr.push({kode: penjualanKode.value, tanggal: penjualanTanggal.value});
+    localStorage.setItem("penjualan",JSON.stringify(arr));
+    alert("Tersimpan!");
+}
+
+function saveDetail(){
+    let arr = JSON.parse(localStorage.getItem("detail")||"[]");
+    arr.push({kode: detailKode.value, produk: detailProduk.value, jumlah: detailJumlah.value});
+    localStorage.setItem("detail",JSON.stringify(arr));
+    alert("Tersimpan!");
+}
+
+function saveProduk(){
+    let arr = JSON.parse(localStorage.getItem("produk")||"[]");
+    arr.push({nama: produkNama.value, harga: produkHarga.value});
+    localStorage.setItem("produk",JSON.stringify(arr));
+    alert("Tersimpan!");
+}
+
+function loadTable(id, storage, cols){
+    let data = JSON.parse(localStorage.getItem(storage)||"[]");
+    let html = "<tr>";
+    cols.forEach(c=> html += "<th>"+c+"</th>");
+    html += "</tr>";
+
+    data.forEach(d=>{
+        html += "<tr>";
+        cols.forEach(c=>{
+            html += "<td>"+(d[c.toLowerCase()] || "")+"</td>";
+        });
+        html += "</tr>";
+    });
+
+    document.getElementById(id).innerHTML = html;
+}
+
+document.addEventListener("click", ()=>{
+    loadTable("tPelanggan","pelanggan",["id","Nama","Telp"]);
+    loadTable("tPenjualan","penjualan",["Kode","Tanggal"]);
+    loadTable("tDetail","detail",["Kode","Produk","Jumlah"]);
+    loadTable("tProduk","produk",["Nama","Harga"]);
+});
+</script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js">  
+</script> 
+<script>
+  AOS.init();  
+</script>
+</body>
+</html>
