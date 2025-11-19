@@ -10,11 +10,19 @@
 <style>
 @import url('https://fonts.cdnfonts.com/css/sf-pro-display');
 
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;  /* cegah geser kiri-kanan */
+}
+
 body{
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'SF sf-pro-display', sans-serif;
+    min-height: 100px;
     background: linear-gradient(135deg, #eaf6ff, #ffffff);
     margin:0;
     padding:0;
+    overflow-y: auto;
     color:#222;
 }
 
@@ -35,11 +43,12 @@ body{
 }
 
 header{
-    background: rgba(255,255,255,0.01);
+    background: rgba(0,0,0,0.08);
     padding:40px;
     text-align:center;
     color:#000;
     font-size:25px;
+    font-family: 'Orbitron', Sans-Serif;
     font-weight:600;
     border-bottom-left-radius:10px;
     border-bottom-right-radius:10px;
@@ -64,7 +73,7 @@ header{
     padding:18px;
     border-radius:20px;
     box-shadow:0 4px 20px rgba(0,0,0,0.08);
-    margin-bottom:20px;
+    margin-bottom:10px;
 }
 .card-login h2 {
   text-align: center;
@@ -90,12 +99,12 @@ button:active{
 input{
     width:90%;
     padding:12px;
-    border-radius:20px;
+    border-radius:19px;
     border:1.5px solid #d8d8d8;
     margin-bottom:10px;
     font-size:15px;
-    background:rgba(255,255,255,0.01);
     outline:none;
+    background: rgba(255,255,255,0.08);
     transition:0.2s;
 }
 input:focus{
@@ -110,8 +119,8 @@ input:focus{
 .menu button{
     flex:1;
     padding:10px;
+    font-weight: 600;
     font-size:14px;
-    font-weight:600;
     background:linear-gradient(135deg, #eaf6ff, #ffffff);
     color:#4a90e2;
     border-radius:12px;
@@ -143,7 +152,7 @@ td{
 
 .hidden{display:none;}
 
-    .btn-hapus {
+.btn-hapus {
     background: #ff3b30;
     color: white;
     border: none;
@@ -155,16 +164,30 @@ td{
 }
 .btn-hapus:hover {
     background: #e02c22;
-    }
+}
+.footer-neon {
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    background: rgba(0, 25, 70, 0.45);
+    backdrop-filter: blur(6px);
+    color: #5ab8ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    border-top: 1px solid rgba(0, 170, 255, 0.5);
+    border-radius: 35px;
+    box-shadow: 0 -0px 15px rgba(0, 150, 255, 0.5);
+}
 </style>
 </head>
 <body>
 
 <div id="loginPage">
-    <header data-aos="zoom-out-down" data-aos-duration="2000">APP KASIR $</header>
+    <header>APP KASIR $</header>
     <div class="container">
-      <img data-aos="zoom-in-up" data-aos-duration="2000" src="https://i.imgur.com/NsET5yt.png" class="top-image-login">
-        <div data-aos="zoom-in-up" data-aos-duration="2000" class="card-login">
+      <img data-aos="zoom-out" data-aos-duration="1300" src="https://i.imgur.com/NsET5yt.png" class="top-image-login">
+        <div class="card-login">
           <h2><i class="fas fa-user-circle"></i> login</h2>
             <input id="username" placeholder="Username">
             <input id="password" type="password" placeholder="Password">
@@ -212,7 +235,9 @@ td{
         <input type="number" id="pelangganId" placeholder="id Pelanggan">
         <input type="text" id="pelangganNama" placeholder="Nama Pelanggan">
         <input type="tel" id="pelangganTelp" placeholder="No Telp">
+        <input type="text" id="pelangganAlamat" placeholder="alamat Pelanggan">
         <button onclick="savePelanggan()">Simpan</button>
+        <button onclick="showPage('dataPelanggan')">lihat data</button>
         <button onclick="showPage('inputPage')">←</button>
     </div>
 </div>
@@ -224,6 +249,7 @@ td{
         <input id="penjualanKode" placeholder="Kode Penjualan">
         <input id="penjualanTanggal" type="date">
         <button onclick="savePenjualan()">Simpan</button>
+        <button onclick="showPage('dataPenjualan')">lihat data</button>
         <button onclick="showPage('inputPage')">←</button>
     </div>
 </div>
@@ -236,6 +262,7 @@ td{
         <input id="detailProduk" placeholder="Produk">
         <input id="detailJumlah" placeholder="Jumlah">
         <button onclick="saveDetail()">Simpan</button>
+        <button onclick="showPage('dataDetail')">lihat data</button>
         <button onclick="showPage('inputPage')">←</button>
     </div>
 </div>
@@ -247,6 +274,7 @@ td{
         <input id="produkNama" placeholder="Nama Produk">
         <input id="produkHarga" placeholder="Harga">
         <button onclick="saveProduk()">Simpan</button>
+        <button onclick="showPage('dataProduk')">lihat data</button>
         <button onclick="showPage('inputPage')">←</button>
     </div>
 </div>
@@ -271,6 +299,7 @@ td{
     <h2>Data Pelanggan</h2>
     <table id="tPelanggan"></table>
     <button onclick="showPage('lihatPage')">←</button>
+    <button onclick="showPage('inputPelanggan')">input data lagi</button>
 </div>
 
 <div id="dataPenjualan" class="hidden container">
@@ -278,6 +307,7 @@ td{
     <h2>Data Penjualan</h2>
     <table id="tPenjualan"></table>
     <button onclick="showPage('lihatPage')">←</button>
+    <button onclick="showPage('inputPenjualan')">input data lagi</button>
 </div>
 
 <div id="dataDetail" class="hidden container">
@@ -285,6 +315,7 @@ td{
     <h2>Data Detail</h2>
     <table id="tDetail"></table>
     <button onclick="showPage('lihatPage')">←</button>
+    <button onclick="showPage('inputDetail')">input data lagi</button>
 </div>
 
 <div id="dataProduk" class="hidden container">
@@ -292,8 +323,11 @@ td{
     <h2>Data Produk</h2>
     <table id="tProduk"></table>
     <button onclick="showPage('lihatPage')">←</button>
+    <button onclick="showPage('inputProduk')">input data lagi</button>
 </div>
-
+<footer class="footer-neon">
+    <p>© 2025 kasir digital Apps · RPL2-TP</p>
+</footer>
 <script>
 function login(){
     if(username.value === "RPL-TP" && password.value === "2025"){
@@ -315,9 +349,9 @@ function showPage(id){
 
 function savePelanggan(){
     let arr = JSON.parse(localStorage.getItem("pelanggan")||"[]");
-    arr.push({id: pelangganId.value, nama: pelangganNama.value, telp: pelangganTelp.value});
+    arr.push({id: pelangganId.value, nama: pelangganNama.value, telp: pelangganTelp.value, alamat: pelangganAlamat.value});
     localStorage.setItem("pelanggan",JSON.stringify(arr));
-    alert("Tersimpan!");
+    alert("Data Tersimpan!");
 }
 
 function savePenjualan(){
@@ -346,7 +380,7 @@ function loadTable(id, storage, cols){
     let html = "<tr>";
 
     cols.forEach(c => html += "<th>" + c + "</th>");
-    html += "<th>hapus</th></tr>"; 
+    html += "<th>hapus</th></tr>"; // kolom hapus
 
     data.forEach((d, i) => {
         html += "<tr>";
@@ -355,6 +389,7 @@ function loadTable(id, storage, cols){
             html += "<td>" + (d[key] ?? "") + "</td>";
         });
 
+        // tombol hapus
         html += `<td>
             <button class="btn-hapus" onclick="hapusData('${storage}', ${i})">Hapus</button>
         </td>`;
@@ -362,16 +397,16 @@ function loadTable(id, storage, cols){
     });
 
     document.getElementById(id).innerHTML = html;
-    }
+}
 
 document.addEventListener("click", ()=>{
-    loadTable("tPelanggan","pelanggan",["id","Nama","Telp"]);
+    loadTable("tPelanggan","pelanggan",["id","Nama","Telp","alamat"]);
     loadTable("tPenjualan","penjualan",["Kode","Tanggal"]);
     loadTable("tDetail","detail",["Kode","Produk","Jumlah"]);
     loadTable("tProduk","produk",["Nama","Harga"]);
 });
 
-    function hapusData(storage, index){
+function hapusData(storage, index){
     let arr = JSON.parse(localStorage.getItem(storage) || "[]");
     arr.splice(index, 1);
     localStorage.setItem(storage, JSON.stringify(arr));
@@ -381,7 +416,7 @@ document.addEventListener("click", ()=>{
     if(storage === "penjualan") loadTable("tPenjualan","penjualan",["Kode","Tanggal"]);
     if(storage === "detail") loadTable("tDetail","detail",["Kode","Produk","Jumlah"]);
     if(storage === "produk") loadTable("tProduk","produk",["Nama","Harga"]);
-    }
+}
 </script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js">  
 </script> 
